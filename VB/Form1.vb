@@ -1,4 +1,3 @@
-﻿Imports Microsoft.VisualBasic
 Imports System
 Imports System.Collections.Generic
 Imports System.Data
@@ -11,95 +10,87 @@ Imports System.Drawing.Imaging
 Imports System.IO
 
 Namespace PrintImageFrames
-	Partial Public Class Form1
-		Inherits Form
-		Public Sub New()
-			InitializeComponent()
-		End Sub
 
-		Private Sub button1_Click(ByVal sender As Object, ByVal e As EventArgs) Handles button1.Click
-			ReportAnImage(Application.StartupPath & "\..\..\" & "Rotating_earth_(small).gif", checkBox1.Checked)
-		End Sub
+    Public Partial Class Form1
+        Inherits Form
 
-		Private Sub button2_Click(ByVal sender As Object, ByVal e As EventArgs) Handles button2.Click
-			ReportAnImage(Application.StartupPath & "\..\..\" & "Prices.tiff", checkBox1.Checked)
-		End Sub
+        Public Sub New()
+            InitializeComponent()
+        End Sub
 
-		Private Sub ReportAnImage(ByVal filename As String, ByVal pageBreakAfterEachImage As Boolean)
-			Dim compositeLink As New CompositeLink(printingSystem1)
-			Dim image As Image = Image.FromFile(filename)
-			Dim frameDimension As New FrameDimension(image.FrameDimensionsList(0))
-			Dim framesCount As Integer = image.GetFrameCount(frameDimension)
+        Private Sub button1_Click(ByVal sender As Object, ByVal e As EventArgs)
+            ReportAnImage(Application.StartupPath & "\..\..\" & "Rotating_earth_(small).gif", checkBox1.Checked)
+        End Sub
 
-			For i As Integer = 0 To framesCount - 1
-				image.SelectActiveFrame(frameDimension, i)
-				compositeLink.Links.Add(New ImageLink(New Bitmap(image), pageBreakAfterEachImage))
-			Next i
+        Private Sub button2_Click(ByVal sender As Object, ByVal e As EventArgs)
+            ReportAnImage(Application.StartupPath & "\..\..\" & "Prices.tiff", checkBox1.Checked)
+        End Sub
 
-			image.Dispose()
+        Private Sub ReportAnImage(ByVal filename As String, ByVal pageBreakAfterEachImage As Boolean)
+            Dim compositeLink As CompositeLink = New CompositeLink(printingSystem1)
+            Dim image As Image = Image.FromFile(filename)
+            Dim frameDimension As FrameDimension = New FrameDimension(image.FrameDimensionsList(0))
+            Dim framesCount As Integer = image.GetFrameCount(frameDimension)
+            For i As Integer = 0 To framesCount - 1
+                image.SelectActiveFrame(frameDimension, i)
+                compositeLink.Links.Add(New ImageLink(New Bitmap(image), pageBreakAfterEachImage))
+            Next
 
-			compositeLink.PaperKind = PaperKind.A3
-			compositeLink.Landscape = True
+            image.Dispose()
+            compositeLink.PaperKind = PaperKind.A3
+            compositeLink.Landscape = True
+            compositeLink.ShowPreviewDialog()
+        End Sub
+    End Class
 
-			compositeLink.ShowPreviewDialog()
-		End Sub
+    Public Class ImageLink
+        Inherits Link
 
-	End Class
+        Private imageField As Image
 
-	Public Class ImageLink
-		Inherits Link
+        Public Property Image As Image
+            Get
+                Return imageField
+            End Get
 
-		Private image_Renamed As Image
+            Set(ByVal value As Image)
+                imageField = value
+            End Set
+        End Property
 
-		Public Property Image() As Image
-			Get
-				Return image_Renamed
-			End Get
-			Set(ByVal value As Image)
-				image_Renamed = value
-			End Set
-		End Property
+        Private addPageBreakField As Boolean
 
-		Private addPageBreak_Renamed As Boolean
+        Public Property AddPageBreak As Boolean
+            Get
+                Return addPageBreakField
+            End Get
 
-		Public Property AddPageBreak() As Boolean
-			Get
-				Return addPageBreak_Renamed
-			End Get
-			Set(ByVal value As Boolean)
-				addPageBreak_Renamed = value
-			End Set
-		End Property
+            Set(ByVal value As Boolean)
+                addPageBreakField = value
+            End Set
+        End Property
 
-		Public Sub New()
-			Me.New(Nothing, Nothing, False)
+        Public Sub New()
+            Me.New(Nothing, Nothing, False)
+        End Sub
 
-		End Sub
+        Public Sub New(ByVal image As Image, ByVal addPageBreak As Boolean)
+            Me.New(Nothing, image, addPageBreak)
+        End Sub
 
-		Public Sub New(ByVal image As Image, ByVal addPageBreak As Boolean)
-			Me.New(Nothing, image, addPageBreak)
+        Public Sub New(ByVal ps As PrintingSystem, ByVal image As Image, ByVal addPageBreak As Boolean)
+            MyBase.New(ps)
+            Me.Image = image
+            Me.AddPageBreak = addPageBreak
+        End Sub
 
-		End Sub
-
-		Public Sub New(ByVal ps As PrintingSystem, ByVal image As Image, ByVal addPageBreak As Boolean)
-			MyBase.New(ps)
-
-			Me.Image = image
-			Me.AddPageBreak = addPageBreak
-		End Sub
-
-		Protected Overrides Sub CreateDetail(ByVal graph As BrickGraphics)
-			If Image IsNot Nothing Then
-				' Add an image to a specific location.
-				graph.DrawImage(Image, New Rectangle(0, 0, Image.Width, Image.Height), BorderSide.None, Color.Transparent)
-
-				If AddPageBreak Then
-					' Add a page break after the image.
-					graph.PrintingSystem.InsertPageBreak(Image.Height + 1)
-				End If
-			End If
-		End Sub
-
-	End Class
-
+        Protected Overrides Sub CreateDetail(ByVal graph As BrickGraphics)
+            If Image IsNot Nothing Then
+                ' Add an image to a specific location.
+                graph.DrawImage(Image, New Rectangle(0, 0, Image.Width, Image.Height), BorderSide.None, Color.Transparent)
+                ' Add a page break after the image.
+                If AddPageBreak Then graph.PrintingSystem.InsertPageBreak(Image.Height + 1)
+            End If
+        End Sub
+    End Class
 End Namespace
