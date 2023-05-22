@@ -8,6 +8,7 @@ using System.Drawing.Printing;
 using DevExpress.XtraPrintingLinks;
 using System.Drawing.Imaging;
 using System.IO;
+using DevExpress.Drawing.Printing;
 
 namespace PrintImageFrames {
     public partial class Form1 : Form {
@@ -36,7 +37,7 @@ namespace PrintImageFrames {
 
             image.Dispose();
 
-            compositeLink.PaperKind = PaperKind.A3;
+            compositeLink.PaperKind = DXPaperKind.A3;
             compositeLink.Landscape = true;
 
             compositeLink.ShowPreviewDialog();
