@@ -30,31 +30,29 @@ Namespace PrintImageFrames
             Me.button1 = New System.Windows.Forms.Button()
             Me.button2 = New System.Windows.Forms.Button()
             Me.checkBox1 = New System.Windows.Forms.CheckBox()
-            CType((Me.printingSystem1), System.ComponentModel.ISupportInitialize).BeginInit()
+            CType(Me.printingSystem1, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.SuspendLayout()
-            ' 
-            ' button1
-            ' 
+            '
+            'button1
+            '
             Me.button1.Location = New System.Drawing.Point(52, 12)
             Me.button1.Name = "button1"
             Me.button1.Size = New System.Drawing.Size(108, 23)
             Me.button1.TabIndex = 0
             Me.button1.Text = "Print sample GIF"
             Me.button1.UseVisualStyleBackColor = True
-            Me.button1.Click += New System.EventHandler(AddressOf Me.button1_Click)
-            ' 
-            ' button2
-            ' 
-            Me.button2.Location = New System.Drawing.Point(52, 41)
+            '
+            'button2
+            '
+            Me.button2.Location = New System.Drawing.Point(53, 41)
             Me.button2.Name = "button2"
             Me.button2.Size = New System.Drawing.Size(108, 23)
             Me.button2.TabIndex = 1
             Me.button2.Text = "Print sample TIFF"
             Me.button2.UseVisualStyleBackColor = True
-            Me.button2.Click += New System.EventHandler(AddressOf Me.button2_Click)
-            ' 
-            ' checkBox1
-            ' 
+            '
+            'checkBox1
+            '
             Me.checkBox1.AutoSize = True
             Me.checkBox1.Location = New System.Drawing.Point(52, 81)
             Me.checkBox1.Name = "checkBox1"
@@ -62,28 +60,29 @@ Namespace PrintImageFrames
             Me.checkBox1.TabIndex = 2
             Me.checkBox1.Text = "With PageBreaks"
             Me.checkBox1.UseVisualStyleBackColor = True
-            ' 
-            ' Form1
-            ' 
-            Me.AutoScaleDimensions = New System.Drawing.SizeF(6F, 13F)
+            '
+            'Form1
+            '
+            Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
             Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-            Me.ClientSize = New System.Drawing.Size(212, 119)
+            Me.ClientSize = New System.Drawing.Size(203, 120)
             Me.Controls.Add(Me.checkBox1)
             Me.Controls.Add(Me.button2)
             Me.Controls.Add(Me.button1)
             Me.Name = "Form1"
             Me.Text = "Form1"
-            CType((Me.printingSystem1), System.ComponentModel.ISupportInitialize).EndInit()
+            CType(Me.printingSystem1, System.ComponentModel.ISupportInitialize).EndInit()
             Me.ResumeLayout(False)
             Me.PerformLayout()
+
         End Sub
 
 #End Region
         Private printingSystem1 As DevExpress.XtraPrinting.PrintingSystem
 
-        Private button1 As System.Windows.Forms.Button
+        Private WithEvents button1 As System.Windows.Forms.Button
 
-        Private button2 As System.Windows.Forms.Button
+        Private WithEvents button2 As System.Windows.Forms.Button
 
         Private checkBox1 As System.Windows.Forms.CheckBox
     End Class

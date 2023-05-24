@@ -11,18 +11,18 @@ Imports System.IO
 
 Namespace PrintImageFrames
 
-    Public Partial Class Form1
+    Partial Public Class Form1
         Inherits Form
 
         Public Sub New()
             InitializeComponent()
         End Sub
 
-        Private Sub button1_Click(ByVal sender As Object, ByVal e As EventArgs)
+        Private Sub button1_Click(ByVal sender As Object, ByVal e As EventArgs) Handles button1.Click
             ReportAnImage(Application.StartupPath & "\..\..\" & "Rotating_earth_(small).gif", checkBox1.Checked)
         End Sub
 
-        Private Sub button2_Click(ByVal sender As Object, ByVal e As EventArgs)
+        Private Sub button2_Click(ByVal sender As Object, ByVal e As EventArgs) Handles button2.Click
             ReportAnImage(Application.StartupPath & "\..\..\" & "Prices.tiff", checkBox1.Checked)
         End Sub
 
